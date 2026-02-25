@@ -70,7 +70,7 @@ class MyLinkedList:
         
         
     def RemoveFirst(self):
-        if(IsEmpty()):
+        if(self.IsEmpty()):
             raise Exception('Lista vazia')
 
         # na remoção do primeiro no deve-se
@@ -83,11 +83,11 @@ class MyLinkedList:
         if(self.inicio == None):
             self.final = None
 
-        self.count += 1
+        self.count -= 1
 
 
     def RemoveLast(self):
-        if IsEmpty():
+        if self.IsEmpty():
             raise Exception('Lista Vazia')
         
         if self.count == 1:
@@ -108,7 +108,7 @@ class MyLinkedList:
         self.count -=1
 
     def Remove(self,item):
-        if IsEmpty():
+        if self.IsEmpty():
             raise Exception ('A lista esta vazia')
         
         #busca pelo primeiro no que contem o item
@@ -134,8 +134,27 @@ class MyLinkedList:
 
         self.count -= 1
         return True 
+    
 
     def RemoveAt(self,i):
+        if (i < 0 or i >= self.count):
+            raise Exception('Posição inválida')
+    
+        if i == 0:
+            self.RemoveFirst()  
+        
+        else:
+            aux = self.inicio
+            for j in range(0, i - 1):
+                aux = aux.next
+        
+            noRemovido = aux.next
+            aux.next = noRemovido.next
+
+            if noRemovido == self.final:
+                self.final = aux
+
+            self.count -= 1
 
     def AddSorted(self,newItem):    
         #encontra a posição de inserção percorrendo
@@ -158,10 +177,66 @@ class MyLinkedList:
             self.final = newNode
         self.count += 1
         
-
-
-    def Find(self,item):
+    def Display(self):
+        
+        aux = self.inicio
+        while aux != None:
+            print(aux.item,end=" ")
+            aux = aux.next
+    
     def Get(self,i):
+        if (i < 0 or i > self.count):
+            raise Exception('Posição inválida')
+        
+        aux = self.inicio
+        for i in range (0, self.count):
+            aux = aux.next
+            if i == aux:
+                break
+            return print('\n',aux.item)
+        
+    def Find(self,item):
+        aux = self.inicio
+        pos = 0
+
+        while aux != None:
+            if aux.item == item:
+                return print(pos)  
+            aux = aux.next
+            pos += 1
+
     def Set(self,i,newItem):
+        if (i < 0 or i > self.count):
+            raise Exception('Posição inválida') 
+        
+        aux = self.inicio
+        for _ in range(0, i):  
+            aux = aux.next
+    
+        aux.item = newItem
+            
+    def IsEmpty(self):
+        return self.count == 0
+
+    
+def main():
+    x = MyLinkedList()
+    x.AddFirst(3)
+    x.AddLast(4)
+    x.AddLast(6)
+    x.Display()
+    x.Get(1)
+    x.Find(3)
+    x.Set(1,5)
+    x.Display()
+
+main()
+
+    
+        
+        
+
+    
+    #def Set(self,i,newItem):
 
     
