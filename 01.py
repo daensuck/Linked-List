@@ -43,8 +43,32 @@ class MyLinkedList:
         self.final = newNode
         self.count += 1
 
-    def InsertAt(self,i,newItem):
+    def InsertAt(self,p,newItem):
+        # nao permite a inserção alem do limite
+        if (p < 0 or p > self.count):
+            raise Exception('Posição inválida.')
+        
+        newNode = Node(newItem,None) #cria novo no
 
+        if (p == 0):
+            #inserção no inicio
+            newNode.next = self.inicio
+            self.inicio = newNode
+        else:
+            # inserção no meio ou no final. avança o ponteiro aux ate atingir o no da po p-1
+            aux = self.inicio
+            for i in range(0,p-1):
+                aux = aux.next
+            
+            newNode.next = aux.next
+            aux.next = newNode
+        
+        if (p == self.count):
+            self.final = newNode
+
+        self.count += 1
+        
+        
     def RemoveFirst(self):
         if(IsEmpty()):
             raise Exception('Lista vazia')
@@ -63,11 +87,58 @@ class MyLinkedList:
 
 
     def RemoveLast(self):
+        if IsEmpty():
+            raise Exception('Lista Vazia')
+        
+        if self.count == 1:
+            #remove o unico no da lista
+            self.inicio =  None
+            self.final = None
+        
+        else: 
+            #percorre os nos ate atingir o penultimo no
+            aux = self.inicio
+            for i in range (0,self.count-2):
+                aux = aux.next
+        
+            #faz o next do ultimo no apontar para none, removendo
+            aux.next = None
+            self.final = aux
+        
+        self.count -=1
+
     def Remove(self,item):
+        if IsEmpty():
+            raise Exception ('A lista esta vazia')
+        
+        #busca pelo primeiro no que contem o item
+        aux = self.inicio
+        anterior = None
+
+        while (aux != None and aux.item != item):
+            anterior = aux
+            aux = aux.next
+
+        #aux sera None qnd o item nao eh encontrado
+        if (aux == None):
+            return False
+        
+        if (aux == self.inicio):
+            self.inicio = aux.next #no removido eh o primeiro
+        else:
+            anterior.next = aux.next # no interm ou ultimo
+
+        # se eh no final, final deve ser atualizado
+        if (aux == self.final):
+            self.final = anterior
+
+        self.count -= 1
+        return True 
+
     def RemoveAt(self,i):
 
     def Find(self,item):
     def Get(self,i):
     def Set(self,i,newItem):
 
-    #teste
+    
