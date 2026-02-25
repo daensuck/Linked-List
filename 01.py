@@ -137,10 +137,26 @@ class MyLinkedList:
 
     def RemoveAt(self,i):
 
-    def AddSorted(self,item):    
+    def AddSorted(self,newItem):    
         #encontra a posição de inserção percorrendo
         #os nos enquanto os itens sao menores
         aux = self.inicio
+        anterior = None
+        
+        while (aux != None and aux.item < newItem):
+            anterior = aux 
+            aux = aux.next
+
+        newNode = Node(newItem,aux)
+        newNode.next = aux.next
+
+        if (aux == self.inicio):
+            self.inicio = newNode
+        else:
+            anterior.next = newNode
+        if (aux == self.final):
+            self.final = newNode
+        self.count += 1
         
 
 
